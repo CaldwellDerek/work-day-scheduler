@@ -3,7 +3,7 @@
 // in the html.
 const currentDate = $('#currentDay');
 const timeBlocksParent = $('#time-blocks-container');
-const saveButton = $('.btn');
+const save = $('.saveBtn');
 
 $(function () {
 
@@ -14,7 +14,21 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
+  save.on("click", (event)=> {
+    let saveButton = "";
+    if (event.target.matches("button")){
+      saveButton = $(event.target);
+    } else {
+      saveButton = $(event.target).parent();
+    }
+    
+    let container = $(saveButton.parent());
+    let id = container.attr("id")
 
+    let text = $(container.children('textarea'));
+    
+    localStorage.setItem(id, text.val());
+  })
 
 
   for(let child of timeBlocksParent.children()){
