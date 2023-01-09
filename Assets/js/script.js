@@ -1,11 +1,7 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
 $(function () {
   const currentDate = $('#currentDay');
   const timeBlocksParent = $('#time-blocks-container');
-  const save = $('.saveBtn');
+  const saveButton = $('.saveBtn');
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -14,32 +10,25 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
-  save.on("click", (event)=> {
-    let saveButton = "";
+  saveButton.on("click", (event)=> {
+    let container = "";
     if (event.target.matches("button")){
-      saveButton = $(event.target);
+      container = $(event.target).parent();
     } else {
-      saveButton = $(event.target).parent();
+      container = $(event.target).parent().parent();
     }
-    
-    let container = $(saveButton.parent());
-    let id = container.attr("id")
 
-    let text = $(container.children('textarea'));
-    
-    localStorage.setItem(id, text.val());
+    localStorage.setItem(container.attr("id"), $(container.children('textarea')).val());
   })
 
-
   for(let child of timeBlocksParent.children('div')){
-
     let currentHour = dayjs().format("HH")
-    if (child.getAttribute("id") < currentHour){
-      child.setAttribute("class", "row time-block past");
-    } else if(child.getAttribute("id") === currentHour){
-      child.setAttribute("class", "row time-block present");
-    } else if(child.getAttribute("id") > currentHour){
-      child.setAttribute("class", "row time-block future");
+    if ($(child).attr("id") < currentHour){
+      $(child).attr("class", "row time-block past");
+    } else if( $(child).attr("id") === currentHour ){
+      $(child).attr( "class", "row time-block present" );
+    } else if( child.attr("id") > currentHour ){
+      $(child).attr("class", "row time-block future");
     }
 
     let id = $(child).attr('id');
@@ -52,12 +41,5 @@ $(function () {
     $(child).children('textarea').val(text);
   }
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-
-
-  // TODO: Add code to display the current date in the header of the page.
   currentDate.text(dayjs().format("dddd, MMMM D"));
 });
