@@ -1,11 +1,11 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-const currentDate = $('#currentDay');
-const timeBlocksParent = $('#time-blocks-container');
-const save = $('.saveBtn');
 
 $(function () {
+  const currentDate = $('#currentDay');
+  const timeBlocksParent = $('#time-blocks-container');
+  const save = $('.saveBtn');
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -31,7 +31,8 @@ $(function () {
   })
 
 
-  for(let child of timeBlocksParent.children()){
+  for(let child of timeBlocksParent.children('div')){
+
     let currentHour = dayjs().format("HH")
     if (child.getAttribute("id") < currentHour){
       child.setAttribute("class", "row time-block past");
@@ -40,6 +41,15 @@ $(function () {
     } else if(child.getAttribute("id") > currentHour){
       child.setAttribute("class", "row time-block future");
     }
+
+    let id = $(child).attr('id');
+    let text = '';
+    try {
+      text = localStorage.getItem(id).trim();
+    } catch (error){
+      // Ignore
+    }
+    $(child).children('textarea').val(text);
   }
 
   // TODO: Add code to get any user input that was saved in localStorage and set
