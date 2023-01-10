@@ -3,7 +3,10 @@
 ## Description
 The motivation behind this project was to further my understanding of Javascript APIs. In this project, I used dayjs and jQUERY to dynamically update the date, color codes based off of current time, and local storage interaction. The application itself is daily scheduler from 9AM - 5PM.
 
-## Screenshots
+## Screenshot(s)
+
+### Application Page
+![Alt text](/Assets/images/Work%20Day%20Scheduler.png?raw=true "Optional Title")
 
 ## Installation
 N/A
